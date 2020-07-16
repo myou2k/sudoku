@@ -1,0 +1,41 @@
+.board {
+    margin: auto;
+    margin-top: 5em;
+}
+
+.cell {
+    margin: 1px;
+    width: 50px;
+    height: 50px;
+    border: solid black thin;
+    display: table-cell;
+    line-height: 48px;
+    text-align: center;
+    vertical-align: middle
+}
+
+.board .row:nth-child(3n-2) .cell{
+    border-top: solid black medium;
+}
+.board .row:nth-child(3n) .cell{
+    border-bottom: solid black medium;
+}
+
+.board .row .cell:nth-of-type(3n-2){
+    border-left: solid black medium
+}
+
+.board .row .cell:nth-of-type(3n){
+    border-right: solid black medium
+}
+
+.highlight {
+    background-color: lightyellow;
+}
+
+.not-given{
+    color: blue;
+}
+.wrong {
+    box-shadow: inset 0px 0px 0px 2px red;
+}
