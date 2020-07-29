@@ -1,0 +1,85 @@
+
+   call  9S  SUDOKU program users guide
+
+
+   1.   SUDOKU Id:  9S
+
+        This SUDOKU base 9×9 total 81 cells.  It include 9's 3×3 fully symmetrical 
+            (central,herizontal axis,vertical axis) blocks (or squares).
+        Filling digits are 1,2,3,4,5,6,7,8,9.  Filling rule follows normal SUDOKU.
+
+   2.   9S SUDOKU project includes dmsgame9s.jar ( software ) and below 6 data files (data base ):
+        
+        "9S_SUDOKU_lib1.dat", "9S_SUDOKU_lib2.dat", "9S_SUDOKU_lib3.dat",
+        "9S_SUDOKU_lib4.dat", "9S_SUDOKU_lib5.dat", "9S_SUDOKU_lib6.dat".
+
+   3.   Call and return:
+
+      (1) To call the SUDOKU program, use the command:
+
+         java  -cp  [user directory] + "\dmsgame9s.jar" NetMain  args
+
+         where  [user directory] is above jar and 6 data file placed directory,
+
+         args has 2 strings seperated by a space:
+
+         first string takes the form of x   
+
+         when  x = "9S-1" --- this means the SUDOKU problem to be solved is given by the second argument:                       
+
+                  yy = 81 digits string of SUDOKU problem.
+
+         when  x = "9S-2" --- this means the SUDOKU problem is retrieved from the Server's problem library, 
+		  
+		  parameter given in second argument:
+
+                  d-cc   where  d is difficulty level (1 to 6)
+
+                               cc is puzzle number
+
+      (2)  return:
+
+         when the command is submitted, the backend returns 4 strings seperated by a line-feed,
+
+         The first string  is "Ok"  or "Error"
+
+             "Error" -- second string describes which error has occurred, no third and fourth string.
+
+             "Ok" --   then the second to fourth strings are as described below:
+
+         second String is "answer_ctr=x-difficulty_level=y"
+
+
+                     "x" = "1" --- means the problem has a unique answer.
+
+                     "y"       --- is problem's difficulty level.
+                                   value is one of 1,2,3,4,4+,5,5+,6,6+
+
+         Third string contains all 81 digits of the Sodoku problem and
+
+                         81 digit answer string, with these two parts separated by a semicolon (";").
+
+         Fourth string contains steps needed to solve the puzzle delimited by semicolons
+
+                         the final step is followed by a period ".".
+
+
+         Error messages may occur:
+
+         1.   The SUDOKU that you gave does not contain 81 digits.
+
+         2.   The SUDOKU that you gave has invalid digit:            （后面接着给出非法字符）
+
+         3.   Answer ctr=0,the SUDOKU has no answer, you should check it and submit again!
+
+         4.   This SUDOKU has multiple answers >= 2, you should check it and submit again!
+
+         5.   The first parameter must be '9S-1'or'9S-2', you should check it and submit again!
+
+         6.   The second parameter must be 'd-ctr',where d is diffculty level from 1 to 6. （用户输入的d不在1到6）
+
+         7.   The problem number you gave has an invalid character:  （后面接着给出非法字符）
+
+
+
+         
