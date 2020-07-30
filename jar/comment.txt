@@ -1,0 +1,56 @@
+
+   call  SUDOKU program users guide
+
+   1.   places "dmsgame9s.jar", 
+        
+        "SUDOKU_Library_diffcult_Level_1.dat",
+        
+        "SUDOKU_Library_diffcult_Level_2.dat",
+        
+        "SUDOKU_Library_diffcult_Level_3.dat",
+        
+        "SUDOKU_Library_diffcult_Level_4.dat",
+        
+        "SUDOKU_Library_diffcult_Level_5.dat",
+        
+        "SUDOKU_Library_diffcult_Level_6.dat"
+        
+        to use cmd folder.
+
+   2.   call SUDOKU program use comand:
+
+        java  -cp "D:\数独游戏\程序包\dmsgame9s.jar" NetMain  args
+
+        where  args has 2 string seperate with space:
+
+        first string has type x-yy   
+
+        when  x = "1" --- means the SUDOKU problem in second argument:                       
+
+                  yy = 81 digits string of SUDOKU problem.
+
+        when  x = "2" --- means the SUDOKU problem get from Server, parameter
+
+                  gived in second argument:
+
+                  d-cc   where  d is difficult level (1 to 6)
+
+                               cc is relative number.
+
+       when the command submitted, the backend give 3 strings seperated by a space,
+
+       First string  is "answer_ctr=x-difficult_level=y"
+
+                  if "x" = "0" --- means user gives problem has not answer,
+
+                     "x" = "1" --- means the problem has unique answer.
+
+                     "y"       --- is problem difficult level.
+
+        when "x" = "1",  Second string has 81digits as problem,semicolon ";" and
+
+                                81 answer string.
+
+                         Three string is solve steps,each step with semicolon ended,
+
+                         last step ended with period ".".

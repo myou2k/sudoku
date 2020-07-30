@@ -30873,7 +30873,175 @@ function callbackify(original) {
 }
 
 exports.callbackify = callbackify;
-},{"./support/isBuffer":"../node_modules/util/support/isBufferBrowser.js","inherits":"../node_modules/util/node_modules/inherits/inherits_browser.js","process":"../node_modules/process/browser.js"}],"Components/Board.tsx":[function(require,module,exports) {
+},{"./support/isBuffer":"../node_modules/util/support/isBufferBrowser.js","inherits":"../node_modules/util/node_modules/inherits/inherits_browser.js","process":"../node_modules/process/browser.js"}],"Components/SolutionPanel.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"Components/SolutionPanel.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+require("./SolutionPanel.css");
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var __extends = void 0 && (void 0).__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var SolutionPanel =
+/** @class */
+function (_super) {
+  __extends(SolutionPanel, _super);
+
+  function SolutionPanel() {
+    var _this = _super !== null && _super.apply(this, arguments) || this;
+
+    _this.state = {
+      selectedRow: ""
+    };
+
+    _this.selectRow = function (id) {
+      var selectedRow = _this.state.selectedRow;
+      selectedRow = selectedRow === id ? "" : id;
+      console.log(id);
+
+      _this.setState({
+        selectedRow: selectedRow
+      });
+    };
+
+    return _this;
+  }
+
+  SolutionPanel.prototype.render = function () {
+    var _this = this;
+
+    return _react.default.createElement("div", {
+      className: "col panel"
+    }, _react.default.createElement("table", {
+      className: "table"
+    }, _react.default.createElement("thead", null, _react.default.createElement("tr", null, _react.default.createElement("th", {
+      scope: "col"
+    }, "#"), _react.default.createElement("th", {
+      scope: "col"
+    }, "Cell"), _react.default.createElement("th", {
+      scope: "col"
+    }, "Value"), _react.default.createElement("th", {
+      scope: "col"
+    }, "Rule"))), _react.default.createElement("tbody", null, this.props.steps.map(function (step) {
+      return _react.default.createElement("tr", {
+        key: step.id,
+        onClick: function onClick() {
+          return _this.selectRow(step.id);
+        }
+      }, _react.default.createElement("th", {
+        scope: "row"
+      }, step.id), _react.default.createElement("td", null, step.position), _react.default.createElement("td", null, step.value), _react.default.createElement("td", null, step.rule));
+    }))));
+  };
+
+  return SolutionPanel;
+}(_react.Component);
+
+var _default = SolutionPanel;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./SolutionPanel.css":"Components/SolutionPanel.css"}],"helper.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  parseData: function parseData(str) {
+    var _a = str.split('\n'),
+        info = _a[0],
+        data = _a[1],
+        stepsStr = _a[2];
+
+    var level = info[info.length - 1];
+
+    var _b = data.split(';'),
+        original = _b[0],
+        solved = _b[1];
+
+    var stepsArray = stepsStr.split(';');
+    var letterToIndexMap = {
+      'A': 0,
+      'B': 1,
+      'C': 2,
+      'D': 3,
+      'E': 4,
+      'F': 5,
+      'G': 6,
+      'H': 7,
+      'I': 8
+    };
+    var steps = [];
+    stepsArray.forEach(function (step) {
+      var _a = step.split(','),
+          first = _a[0],
+          rule = _a[1],
+          value = _a[2];
+
+      var _b = first.split('-'),
+          id = _b[0],
+          position = _b[1];
+
+      var x = parseInt(position[1]) - 1;
+      var y = letterToIndexMap[position[0]];
+      steps.push({
+        rule: rule,
+        value: value,
+        id: id,
+        position: position,
+        x: x,
+        y: y
+      });
+    });
+    var result = {
+      level: level,
+      original: original,
+      solved: solved,
+      steps: steps
+    };
+    return result;
+  }
+};
+exports.default = _default;
+},{}],"Components/Board.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30888,6 +31056,10 @@ require("./Board.css");
 var _axios = _interopRequireDefault(require("axios"));
 
 var _util = require("util");
+
+var _SolutionPanel = _interopRequireDefault(require("./SolutionPanel"));
+
+var _helper = _interopRequireDefault(require("../helper"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31090,43 +31262,50 @@ function (_super) {
     _this.state = {
       board: [[new Cell(0, 0, null)]],
       selectedCell: null,
-      mistakes: 0,
-      invalid: false
+      difficulty: "",
+      displaySolutionPanel: false
     };
 
-    _this.getNewBoard = function () {
+    _this.getNewBoard = function (e) {
       return __awaiter(_this, void 0, void 0, function () {
-        var data, squares, board, i, row, j, cell;
+        var difficulty, problemNumber, data, problem, board, original, i, value, y, x;
         return __generator(this, function (_a) {
           switch (_a.label) {
             case 0:
+              difficulty = e.target.textContent;
+              problemNumber = Math.floor(Math.random() * 100) + 1;
               return [4
               /*yield*/
-              , _axios.default.get("https://cors-anywhere.herokuapp.com/http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=1")];
+              , _axios.default.post("/api/java/new", {
+                difficulty: difficulty,
+                problemNumber: problemNumber
+              })];
 
             case 1:
               data = _a.sent();
-              squares = data.data.squares;
-              board = [];
+              problem = _helper.default.parseData(data.data);
+              console.log(problem);
+              this.resetBoard();
+              board = this.state.board;
+              original = problem.original.split("");
+              console.log(original);
 
-              for (i = 0; i < 9; i++) {
-                row = [];
+              for (i = 0; i < original.length; i++) {
+                value = parseInt(original[i]);
 
-                for (j = 0; j < 9; j++) {
-                  cell = new Cell(j, i, null);
-                  row.push(cell);
+                if (value !== 0) {
+                  y = Math.floor(i / 9);
+                  x = i % 9;
+                  console.log(y, x, value);
+                  board[y][x].value = value;
+                  board[y][x].isGiven = true;
                 }
-
-                board.push(row);
               }
 
-              squares.forEach(function (square) {
-                var cell = new Cell(square.x, square.y, square.value);
-                cell.isGiven = true;
-                board[square.y][square.x] = cell;
-              });
               this.setState({
-                board: board
+                board: board,
+                difficulty: difficulty,
+                problem: problem
               });
               return [2
               /*return*/
@@ -31151,7 +31330,8 @@ function (_super) {
       }
 
       _this.setState({
-        board: board
+        board: board,
+        displaySolutionPanel: false
       });
     };
 
@@ -31183,9 +31363,7 @@ function (_super) {
     };
 
     _this.handleKeyPress = function (event) {
-      var _a = _this.state,
-          board = _a.board,
-          selectedCell = _a.selectedCell;
+      var selectedCell = _this.state.selectedCell;
       var value = event.key === 'Backspace' || event.key === '0' ? null : Number(event.key);
 
       if (selectedCell && ((0, _util.isNull)(value) || !isNaN(value)) && !selectedCell.isGiven) {
@@ -31239,7 +31417,6 @@ function (_super) {
 
       for (var i = 0; i < 9; i++) {
         if (row.has(value)) {
-          console.log("row", i, x, value);
           return false;
         }
 
@@ -31253,7 +31430,6 @@ function (_super) {
 
       for (var i = 0; i < 9; i++) {
         if (col.has(value)) {
-          console.log("col", i, y, value);
           return false;
         }
 
@@ -31270,7 +31446,6 @@ function (_super) {
       for (var i = iStart; i < iStart + 3; i++) {
         for (var j = jStart; j < jStart + 3; j++) {
           if (sqr.has(value)) {
-            console.log("sqr", j, y, x, value);
             return false;
           }
 
@@ -31281,6 +31456,12 @@ function (_super) {
       }
 
       return true;
+    };
+
+    _this.displaySolution = function () {
+      _this.setState({
+        displaySolutionPanel: true
+      });
     };
 
     return _this;
@@ -31295,10 +31476,19 @@ function (_super) {
   Board.prototype.render = function () {
     var _this = this;
 
-    var board = this.state.board;
+    var _a = this.state,
+        board = _a.board,
+        displaySolutionPanel = _a.displaySolutionPanel,
+        problem = _a.problem;
     return _react.default.createElement("div", {
       className: "container text-center"
-    }, _react.default.createElement("h1", null, "Mistakes: ", this.state.mistakes, " "), _react.default.createElement("table", {
+    }, _react.default.createElement("div", {
+      className: "row"
+    }, displaySolutionPanel && problem ? _react.default.createElement(_SolutionPanel.default, {
+      steps: problem.steps
+    }) : null, _react.default.createElement("div", {
+      className: "col"
+    }, _react.default.createElement("table", {
       className: "board"
     }, _react.default.createElement("tbody", null, board.map(function (row, rindex) {
       return _react.default.createElement("tr", {
@@ -31313,21 +31503,46 @@ function (_super) {
           }
         }, " ", cell.value);
       }));
-    }))), _react.default.createElement("div", {
-      className: "btn-group mt-3",
-      role: "group",
-      "aria-label": "Basic example"
+    }))))), _react.default.createElement("div", {
+      className: "btn-group my-3",
+      role: "group"
     }, _react.default.createElement("button", {
       type: "button",
-      className: "btn btn-secondary"
-    }, "Solve"), _react.default.createElement("button", {
-      type: "button",
-      className: "btn btn-secondary"
-    }, "Submit"), _react.default.createElement("button", {
-      type: "button",
       className: "btn btn-secondary",
-      onClick: this.getNewBoard
-    }, "New")));
+      onClick: this.displaySolution
+    }, "Solve"), _react.default.createElement("div", {
+      className: "btn-group dropright",
+      role: "group"
+    }, _react.default.createElement("button", {
+      id: "new-button",
+      type: "button",
+      className: "btn btn-secondary dropdown-toggle",
+      "data-toggle": "dropdown",
+      "aria-haspopup": "true",
+      "aria-expanded": "false"
+    }, "New"), _react.default.createElement("div", {
+      className: "dropdown-menu",
+      "aria-labelledby": "difficultyDropdown",
+      onClick: function onClick(e) {
+        return _this.getNewBoard(e);
+      }
+    }, _react.default.createElement("a", {
+      className: "dropdown-item"
+    }, "1"), _react.default.createElement("a", {
+      className: "dropdown-item"
+    }, "2"), _react.default.createElement("a", {
+      className: "dropdown-item"
+    }, "3"), _react.default.createElement("a", {
+      className: "dropdown-item"
+    }, "4"), _react.default.createElement("a", {
+      className: "dropdown-item"
+    }, "5"), _react.default.createElement("a", {
+      className: "dropdown-item"
+    }, "6"), _react.default.createElement("div", {
+      className: "dropdown-divider"
+    }), _react.default.createElement("a", {
+      className: "dropdown-item"
+    }, "Custom")))));
   };
 
   return Board;
@@ -31335,7 +31550,12 @@ function (_super) {
 
 var _default = Board;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Board.css":"Components/Board.css","axios":"../node_modules/axios/index.js","util":"../node_modules/util/util.js"}],"App.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Board.css":"Components/Board.css","axios":"../node_modules/axios/index.js","util":"../node_modules/util/util.js","./SolutionPanel":"Components/SolutionPanel.tsx","../helper":"helper.ts"}],"App.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"App.tsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31346,6 +31566,8 @@ exports.default = void 0;
 var _react = _interopRequireWildcard(require("react"));
 
 var _Board = _interopRequireDefault(require("./Components/Board"));
+
+require("./App.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31397,7 +31619,7 @@ function (_super) {
 
 var _default = App;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Components/Board":"Components/Board.tsx"}],"index.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Components/Board":"Components/Board.tsx","./App.css":"App.css"}],"index.tsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -31437,7 +31659,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51635" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57594" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

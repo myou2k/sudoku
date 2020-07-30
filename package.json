@@ -4,7 +4,8 @@
   "description": "An demo of sudoku in react",
   "main": "index.js",
   "scripts": {
-    "start": "parcel src/index.html",
+    "dev": "parcel build src/index.html && node src/server && parcel watch src/index.html ",
+    "start": "node src/server.js",
     "build": "parcel build src/index.html",
     "check": "gts check",
     "clean": "gts clean",

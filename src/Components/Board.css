@@ -1,3 +1,5 @@
+
+
 .board {
     margin: auto;
     margin-top: 5em;
@@ -14,23 +16,29 @@
     vertical-align: middle
 }
 
-.board .row:nth-child(3n-2) .cell{
+.board .top-header .cell{
+    border : none !important;
+    color: lightgray
+}
+
+.board .row .left-header{
+    border : none !important;
+    color: lightgray
+}
+
+.board .row:nth-child(3n-1) .cell{
     border-top: solid black medium;
 }
-.board .row:nth-child(3n) .cell{
+.board .row:nth-child(3n+1) .cell{
     border-bottom: solid black medium;
 }
 
-.board .row .cell:nth-of-type(3n-2){
+.board .row .cell:nth-of-type(3n-1){
     border-left: solid black medium
 }
 
-.board .row .cell:nth-of-type(3n){
+.board .row .cell:nth-of-type(3n+1){
     border-right: solid black medium
-}
-
-.highlight {
-    background-color: lightyellow;
 }
 
 .not-given{
